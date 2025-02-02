@@ -1,5 +1,13 @@
 version: '3.8'
 services:
+  builder:
+    image: php:8.1-fpm
+    container_name: wave-builder
+    volumes:
+      - "./code:/var/www/html"
+    working_dir: /var/www/html
+    command: "composer install"
+
   app:
     image: php:8.1-fpm
     container_name: wave-app
