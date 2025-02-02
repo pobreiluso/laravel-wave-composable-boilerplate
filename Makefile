@@ -20,6 +20,7 @@ help:
 
 init:
 	$(MAKE) wave-check
+	make host-env
 	make up
 	make copy-env
 	make composer-install
@@ -80,3 +81,6 @@ copy-env:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) cp .env.example .env || true
 generate-key:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan key:generate
+
+host-env:
+	cp .env.example .env || true
