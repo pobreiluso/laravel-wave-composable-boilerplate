@@ -12,7 +12,10 @@ services:
     command: tail -f /dev/null
 
   app:
-    image: wave-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
     container_name: wave-app
     volumes:
       - "./code:/var/www/html"

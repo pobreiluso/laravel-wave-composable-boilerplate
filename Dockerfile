@@ -28,16 +28,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /var/www/html
-COPY ./code/ /var/www/html/
-RUN composer install --optimize-autoloader
-RUN npm install
 
 # Stage 2: app
 FROM base as app
 
 WORKDIR /var/www/html
-COPY --from=builder /var/www/html /var/www/html
 
 ENV FPM_PORT=${FPM_PORT:-9000}
 EXPOSE $FPM_PORT
