@@ -69,7 +69,9 @@ download-wave:
 	rm wave-latest.zip
 	@cd code && SUBDIR="$$(ls -1 | head -n1)" && \
 		if [ -d "$$SUBDIR" ]; then \
-		   mv $$SUBDIR/* . && rmdir $$SUBDIR; \
+		   mv $$SUBDIR/* . 2>/dev/null || true; \
+		   mv $$SUBDIR/.* . 2>/dev/null || true; \
+		   rmdir $$SUBDIR; \
 		fi
 	@echo "Wave descargado en ./code"
 
