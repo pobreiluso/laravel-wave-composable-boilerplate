@@ -1,11 +1,12 @@
 DOCKER_COMPOSE := docker-compose
 APP_SERVICE := app
 
-.PHONY: help init build up down composer-install migrate seed fresh logs bash
+.PHONY: help init build up down composer-install migrate seed fresh logs bash download-wave
 
 help:
 	@echo "Comandos disponibles:"
 	@echo "  make init       - Inicializa el proyecto (contenedores, .env, dependencias, migraciones, seeds)."
+	@echo "  make download-wave - Descarga la última versión de Wave."
 	@echo "  make build      - Construye la imagen (si tienes un Dockerfile personalizado)."
 	@echo "  make up         - Levanta los contenedores en segundo plano."
 	@echo "  make down       - Detiene y elimina los contenedores."
@@ -47,6 +48,10 @@ fresh:
 
 logs:
 	$(DOCKER_COMPOSE) logs -f $(APP_SERVICE)
+
+download-wave:
+	curl -L https://devdojo.com/wave/download -o wave-latest.zip
+	unzip wave-latest.zip -d wave
 
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
