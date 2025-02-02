@@ -55,7 +55,7 @@ composer-install:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer install
 
 migrate:
-	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) sh -c "echo 'Esperando a que la DB inicie...' && attempts=0 && until mysqladmin ping -h db --silent || [ \$attempts -gt 30 ]; do sleep 2; attempts=\$((attempts+1)); done && if [ \$attempts -gt 30 ]; then echo 'ERROR: la DB no respondió a tiempo'; exit 1; fi && php artisan migrate"
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate
 
 seed:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan db:seed
