@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
       target: builder
     container_name: wave-builder
-    volumes:
-      - "./code:/var/www/html"
+    volumess:
+      - "../code:/var/www/html"
     working_dir: /var/www/html
     command: tail -f /dev/null
 
@@ -18,7 +18,7 @@ services:
       target: app
     container_name: wave-app
     volumes:
-      - "./code:/var/www/html"
+      - "../code:/var/www/html"
     working_dir: /var/www/html"
     env_file:
       - .env.docker
@@ -37,8 +37,8 @@ services:
     # Basic config: pass PHP requests to 'app' service on port 9000
     # For advanced usage, copy or mount a custom nginx.conf
     volumes:
-      - "./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
-      - "./code:/var/www/html"
+      - "./nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+      - "../code:/var/www/html"
     command: "nginx -g 'daemon off;'"
 
   db:
