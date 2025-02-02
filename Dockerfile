@@ -42,6 +42,6 @@ WORKDIR /var/www/html
 # Copy from builder
 COPY --from=builder /var/www/html /var/www/html
 
-# Expose PHP-FPM port
-EXPOSE 9000
+ENV FPM_PORT=${FPM_PORT:-9000}
+EXPOSE $FPM_PORT
 CMD ["php-fpm"]
