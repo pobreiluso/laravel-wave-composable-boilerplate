@@ -104,6 +104,10 @@ host-env:
 			if ! grep -q '^APP_PORT=' code/.env; then \
 				echo "APP_PORT=8008" >> code/.env; \
 			fi; \
+			sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
+			sed -i 's/^DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
+			sed -i 's/^DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
+			sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
 		else \
 			echo "Ya existe code/.env; no se sobrescribe."; \
 			if ! grep -q '^APP_PORT=' code/.env; then \
