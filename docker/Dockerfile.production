@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy your code into the container
 WORKDIR /var/www/html
-COPY . /var/www/html
+COPY ../code /var/www/html
 
 # Install composer dependencies (excluding dev)
 RUN composer install --optimize-autoloader --no-dev

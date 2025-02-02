@@ -36,7 +36,7 @@ init:
 	@echo "╰────────────────────────────────────────────────────╯"
 
 build:
-	docker build -t wave-app -f Dockerfile .
+	docker build -t wave-app -f docker/Dockerfile .
 
 up:
 	$(DOCKER_COMPOSE) up -d
