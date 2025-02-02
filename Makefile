@@ -21,8 +21,7 @@ help:
 init:
 	$(MAKE) wave-check
 	make up
-	#make host-env
-	make copy-env
+	make host-env
 	make composer-install
 	make generate-key
 	make migrate
