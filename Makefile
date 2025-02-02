@@ -23,8 +23,8 @@ init:
 	$(MAKE) wave-check
 	make host-env
 	make build
-	make up
 	make composer-install
+	make up
 	make generate-key
 	make migrate
 	make seed
