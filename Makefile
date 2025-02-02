@@ -75,42 +75,21 @@ logs:
 	$(DOCKER_COMPOSE) logs -f $(APP_SERVICE)
 
 download-wave:
-	@echo "Descargando Wave. Si ya existe ./code, se sobrescribirá:"
-	@if [ -d "./code" ]; then \
-		read -p "¿Sobrescribir la carpeta code? (s/N) " conf; \
-		if [ "$$conf" != "s" ] && [ "$$conf" != "S" ]; then \
-			echo "Operación cancelada."; \
-			exit 1; \
-		fi; \
-		rm -rf code; \
-	fi
-	mkdir -p code
-	curl -L https://devdojo.com/wave/download -o wave-latest.zip
-	unzip wave-latest.zip -d code >/dev/null
-	rm wave-latest.zip
-	@cd code && SUBDIR="$$(ls -1 | head -n1)" && \
-		if [ -d "$$SUBDIR" ]; then \
-		   mv $$SUBDIR/* . 2>/dev/null || true; \
-		   mv $$SUBDIR/.* . 2>/dev/null || true; \
-		   rmdir $$SUBDIR; \
-		fi
-	@echo "Wave descargado en ./code"
+	@echo "Skipping download-wave. Now we use a Git submodule for Wave."
 
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
 wave-check:
 	@echo "============================================"
-	@echo "       Verificación de carpeta Wave"
+	@echo "   Checking for 'code' submodule..."
 	@echo "============================================"
-	@if [ -d "./code" ]; then \
-		read -p "Ya existe la carpeta ./code. ¿Deseas sobreescribirla y descargar Wave (s/N)? " conf; \
-		if [ "$$conf" = "s" ] || [ "$$conf" = "S" ]; then \
-			make download-wave; \
-		else \
-			echo "Omitiendo descarga. Se usará la carpeta ./code existente."; \
-		fi; \
+	@if [ -d "./code/.git" ]; then \
+		echo "Wave submodule already exists in ./code. Pulling updates..."; \
+		git submodule update --remote --merge code || true; \
 	else \
-		make download-wave; \
+		echo "Adding Wave submodule in ./code..."; \
+		git submodule add https://github.com/thedevdojo/wave code; \
+		echo "Done. Submodule added."; \
 	fi
 copy-env:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) cp .env.example .env || true
