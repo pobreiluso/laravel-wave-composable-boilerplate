@@ -2,7 +2,7 @@ DOCKER_COMPOSE := docker-compose -f docker/docker-compose.yaml
 APP_SERVICE := app
 BUILDER_SERVICE := builder
 
-.PHONY: help init build up down composer-install migrate seed fresh logs bash download-wave wave-check copy-env generate-key
+.PHONY: help init build up down composer-install migrate seed fresh logs bash download-laravel project-check copy-env generate-key
 
 help:
 	@echo "Comandos disponibles:"
@@ -10,7 +10,7 @@ help:
 	@echo "  make download-wave - Descarga la última versión de Wave."
 	@echo "  make build      - Construye la imagen (si tienes un Dockerfile personalizado)."
 	@echo "  make up         - Levanta los contenedores en segundo plano."
-	@echo "  make wave-check - Verifica si ya existe el directorio wave, de lo contrario llama a download-wave."
+	@echo "  make project-check - Verifica si ya existe un proyecto Laravel, de lo contrario llama a download-laravel."
 	@echo "  make down       - Detiene y elimina los contenedores."
 	@echo "  make composer-install - Instala dependencias de Composer en el contenedor."
 	@echo "  make migrate    - Ejecuta las migraciones."
@@ -23,7 +23,7 @@ init:
 	@echo "╭────────────────────────────────────────────────────╮"
 	@echo "│  \033[1;96m🚀 Bienvenido al proceso de configuración!\033[0m │"
 	@echo "╰────────────────────────────────────────────────────╯"
-	$(MAKE) wave-check
+	$(MAKE) project-check
 	make host-env
 	make build
 	make composer-install
@@ -71,22 +71,20 @@ fresh:
 logs:
 	$(DOCKER_COMPOSE) logs -f $(APP_SERVICE)
 
-download-wave:
-	@echo "Skipping download-wave. Now we use a Git submodule for Wave."
+download-laravel:
+	@echo "Instalando un nuevo proyecto Laravel desde laravel/laravel..."
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer create-project laravel/laravel code
 
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
-wave-check:
+project-check:
 	@echo "============================================"
-	@echo "   Checking for 'code' submodule..."
+	@echo "  Checking if code folder has a Laravel project..."
 	@echo "============================================"
-	@if [ -d "./code/.git" ]; then \
-		echo "Wave submodule already exists in ./code. Pulling updates..."; \
-		git submodule update --remote --merge code || true; \
+	@if [ -f "./code/artisan" ]; then \
+		echo "Laravel project already existe en ./code. Omitiendo descarga..."; \
 	else \
-		echo "Adding Wave submodule in ./code..."; \
-		git submodule add https://github.com/thedevdojo/wave code; \
-		echo "Done. Submodule added."; \
+		$(MAKE) download-laravel; \
 	fi
 copy-env:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) cp .env.example .env || true
