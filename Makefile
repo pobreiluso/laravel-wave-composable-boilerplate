@@ -19,9 +19,9 @@ help:
 	@echo "  make bash       - Entra a la terminal bash del contenedor app."
 
 init:
-	make host-env
 	$(MAKE) wave-check
 	make up
+	#make host-env
 	make copy-env
 	make composer-install
 	make generate-key
