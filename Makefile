@@ -27,6 +27,7 @@ init:
 	make host-env
 	make build
 	make composer-install
+	make npm-install
 	make up
 	make generate-key
 	make migrate
@@ -46,6 +47,9 @@ down:
 
 composer-install:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer install
+
+npm-install:
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) npm install
 
 migrate:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate
