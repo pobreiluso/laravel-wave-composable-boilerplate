@@ -19,7 +19,7 @@ help:
 	@echo "  make bash       - Entra a la terminal bash del contenedor app."
 
 init:
-	wave-check
+	$(MAKE) wave-check
 	make up
 	make copy-env
 	make composer-install
