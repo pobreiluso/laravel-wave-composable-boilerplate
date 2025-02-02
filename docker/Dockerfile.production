@@ -1,0 +1,35 @@
+# Example production Dockerfile
+
+# Use the same base image as your dev build
+FROM php:8.2-fpm as production
+
+# Set environment variables for production
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV APP_KEY=    # place your real prod key here or pass via environment variable
+
+# Install any additional production dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    zip \
+    unzip \
+    curl \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy your code into the container
+WORKDIR /var/www/html
+COPY . /var/www/html
+
+# Install composer dependencies (excluding dev)
+RUN composer install --optimize-autoloader --no-dev
+
+# Build front-end assets
+RUN npm install && npm run build
+
+# Expose the production port (still 9000 by default for FPM)
+ENV FPM_PORT=${FPM_PORT:-9000}
+EXPOSE $FPM_PORT
+
+CMD ["php-fpm"]
