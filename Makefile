@@ -2,7 +2,7 @@ DOCKER_COMPOSE := docker-compose -f docker/docker-compose.yaml
 APP_SERVICE := app
 BUILDER_SERVICE := builder
 
-.PHONY: help init build up down composer-install migrate seed fresh logs bash download-laravel project-check copy-env generate-key download-wave
+.PHONY: help init build up down composer-install migrate seed fresh logs bash download-laravel project-check copy-env generate-key download-wave clean
 
 help:
 	@echo "Comandos disponibles:"
@@ -128,3 +128,7 @@ download-wave:
 		rm -rf ./code; \
 		git clone git@github.com:thedevdojo/wave.git code; \
 	fi
+
+clean:
+	$(DOCKER_COMPOSE) down --volumes
+	@echo "drakarys"
