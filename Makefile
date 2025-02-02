@@ -93,8 +93,15 @@ host-env:
 		if [ ! -f code/.env ]; then \
 			echo "Copiando code/.env.example → code/.env"; \
 			cp code/.env.example code/.env; \
+			if ! grep -q '^APP_PORT=' code/.env; then \
+				echo "APP_PORT=8008" >> code/.env; \
+			fi; \
 		else \
 			echo "Ya existe code/.env; no se sobrescribe."; \
+			if ! grep -q '^APP_PORT=' code/.env; then \
+				echo "No APP_PORT en code/.env; añadiendo APP_PORT=8008"; \
+				echo "APP_PORT=8008" >> code/.env; \
+			fi; \
 		fi; \
 	else \
 		echo "No existe code/.env.example; ¿seguro que Wave está descargado?"; \
