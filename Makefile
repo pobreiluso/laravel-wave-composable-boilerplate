@@ -54,19 +54,24 @@ logs:
 	$(DOCKER_COMPOSE) logs -f $(APP_SERVICE)
 
 download-wave:
-	@echo "Descargando Wave. Si ya existe ./wave, se sobrescribirá:"
-	@if [ -d "./wave" ]; then \
-		read -p "¿Sobrescribir la carpeta wave? (s/N) " conf; \
+	@echo "Descargando Wave. Si ya existe ./code, se sobrescribirá:"
+	@if [ -d "./code" ]; then \
+		read -p "¿Sobrescribir la carpeta code? (s/N) " conf; \
 		if [ "$$conf" != "s" ] && [ "$$conf" != "S" ]; then \
 			echo "Operación cancelada."; \
 			exit 1; \
 		fi; \
-		rm -rf wave; \
+		rm -rf code; \
 	fi
+	mkdir -p code
 	curl -L https://devdojo.com/wave/download -o wave-latest.zip
-	unzip wave-latest.zip -d wave
+	unzip wave-latest.zip -d code >/dev/null
 	rm wave-latest.zip
-	@echo "Wave descargado en ./wave"
+	@cd code && SUBDIR="$$(ls -1 | head -n1)" && \
+		if [ -d "$$SUBDIR" ]; then \
+		   mv $$SUBDIR/* . && rmdir $$SUBDIR; \
+		fi
+	@echo "Wave descargado en ./code"
 
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
@@ -83,4 +88,13 @@ generate-key:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan key:generate
 
 host-env:
-	cp .env.example .env || true
+	@if [ -f code/.env.example ]; then \
+		if [ ! -f code/.env ]; then \
+			echo "Copiando code/.env.example → code/.env"; \
+			cp code/.env.example code/.env; \
+		else \
+			echo "Ya existe code/.env; no se sobrescribe."; \
+		fi; \
+	else \
+		echo "No existe code/.env.example; ¿seguro que Wave está descargado?"; \
+	fi
