@@ -42,5 +42,6 @@ WORKDIR /var/www/html
 # Copy from builder
 COPY --from=builder /var/www/html /var/www/html
 
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Expose PHP-FPM port
+EXPOSE 9000
+CMD ["php-fpm"]
