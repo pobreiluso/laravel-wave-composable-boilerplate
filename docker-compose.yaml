@@ -39,7 +39,7 @@ services:
     # Basic config: pass PHP requests to 'app' service on port 9000
     # For advanced usage, copy or mount a custom nginx.conf
     volumes:
-      - "./code/nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
       - "./code:/var/www/html"
     command: "nginx -g 'daemon off;'"
 
