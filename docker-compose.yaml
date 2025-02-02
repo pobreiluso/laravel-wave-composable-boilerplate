@@ -20,7 +20,7 @@ services:
     env_file:
       - code/.env
     environment:
-      - APP_PORT=${APP_PORT:-8008}
+      - APP_PORT=${APP_PORT}
     depends_on:
       - db
     expose:
@@ -32,7 +32,7 @@ services:
     depends_on:
       - app
     ports:
-      - "8080:80"
+      - "${APP_PORT}:80"
     volumes:
       - "./code:/var/www/html"
     # Basic config: pass PHP requests to 'app' service on port 9000
