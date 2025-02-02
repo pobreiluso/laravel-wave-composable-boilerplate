@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${APP_PORT:-8008}:${APP_PORT:-8008}"
 
   db:
     image: mysql:8
