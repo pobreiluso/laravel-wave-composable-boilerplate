@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   builder:
-    image: php:8.1-fpm
+    image: wave-app:latest
     container_name: wave-builder
     volumes:
       - "./code:/var/www/html"

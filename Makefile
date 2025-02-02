@@ -29,7 +29,7 @@ init:
 	@echo "Init completado."
 
 build:
-	$(DOCKER_COMPOSE) build
+	docker build -t wave-app -f Dockerfile .
 
 up:
 	$(DOCKER_COMPOSE) up -d
