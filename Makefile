@@ -105,6 +105,8 @@ host-env:
 				echo "APP_PORT=8008" >> code/.env; \
 			fi; \
 			sed -i '' 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
+			sed -i '' 's/^DB_HOST=.*/DB_HOST=db/' code/.env; \
+			sed -i '' 's/^DB_PORT=.*/DB_PORT=3306/' code/.env; \
 			sed -i '' 's/^DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
 			sed -i '' 's/^DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
 			sed -i '' 's/^DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
