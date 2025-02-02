@@ -37,15 +37,9 @@ services:
       - "./code:/var/www/html"
     # Basic config: pass PHP requests to 'app' service on port 9000
     # For advanced usage, copy or mount a custom nginx.conf
-    command: >
-      sh -c "sed -i '/listen       80;/a \\    root /var/www/html/public;\\
-      location ~ \\.php$ {\\
-        fastcgi_pass app:9000;\\
-        fastcgi_index index.php;\\
-        include fastcgi_params;\\
-        fastcgi_param SCRIPT_FILENAME /var/www/html\$${fastcgi_script_name};\\
-      }' /etc/nginx/conf.d/default.conf &&
-      nginx -g 'daemon off;'"
+    volumes:
+      - "./code/nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+    command: "nginx -g 'daemon off;'"
 
   db:
     image: mysql:8.0
