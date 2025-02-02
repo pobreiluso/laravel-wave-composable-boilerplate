@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: builder
-    container_name: wave-builder
+    container_name: builder
     volumes:
       - "../code:/var/www/html"
     working_dir: /var/www/html
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: app
-    container_name: wave-app
+    container_name: app
     volumes:
       - "../code:/var/www/html"
     working_dir: /var/www/html"
@@ -29,7 +29,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: wave-nginx
+    container_name: nginx
     depends_on:
       - app
     ports:
@@ -43,7 +43,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: wave-db
+    container_name: db
     env_file:
       - .env.docker
     ports:
