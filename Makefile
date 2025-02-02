@@ -21,6 +21,7 @@ help:
 init:
 	$(MAKE) wave-check
 	make host-env
+	make build
 	make up
 	make composer-install
 	make generate-key
