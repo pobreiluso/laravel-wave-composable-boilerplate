@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     libgd-dev \
     libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install zip exif gd intl
+    && docker-php-ext-install zip exif gd intl pdo pdo_mysql
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
