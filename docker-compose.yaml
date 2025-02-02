@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: wave-builder
+    volumes:
+      - "./code:/var/www/html"
+    working_dir: /var/www/html
+    command: tail -f /dev/null
+
   app:
     image: php:8.1-fpm
     container_name: wave-app

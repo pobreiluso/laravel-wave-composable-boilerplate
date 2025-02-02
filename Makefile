@@ -39,7 +39,7 @@ down:
 	$(DOCKER_COMPOSE) down
 
 composer-install:
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) composer install
+	$(DOCKER_COMPOSE) exec builder composer install
 
 migrate:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan migrate
