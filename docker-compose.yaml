@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    image: php:8.1-fpm
+    container_name: wave-app
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  db:
+    image: mysql:8
+    container_name: wave-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=wave
+      - MYSQL_DATABASE=wave
+      - MYSQL_USER=wave
+      - MYSQL_PASSWORD=wave
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
