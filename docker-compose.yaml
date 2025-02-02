@@ -33,8 +33,6 @@ services:
       - app
     ports:
       - "${APP_PORT}:80"
-    volumes:
-      - "./code:/var/www/html"
     # Basic config: pass PHP requests to 'app' service on port 9000
     # For advanced usage, copy or mount a custom nginx.conf
     volumes:
