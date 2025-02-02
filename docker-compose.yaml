@@ -21,9 +21,7 @@ services:
       - "./code:/var/www/html"
     working_dir: /var/www/html"
     env_file:
-      - code/.env
-    environment:
-      - APP_PORT=${APP_PORT}
+      - .env.docker
     depends_on:
       - db
     expose:
@@ -47,12 +45,7 @@ services:
     image: mysql:8.0
     container_name: wave-db
     env_file:
-      - code/.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-wave}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-wave}
-      - MYSQL_USER=${MYSQL_USER:-wave}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-wave}
+      - .env.docker
     ports:
       - "3306:3306"
     volumes:
