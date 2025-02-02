@@ -1,0 +1,62 @@
+version: '3.8'
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: wave-builder
+    volumes:
+      - "./code:/var/www/html"
+    working_dir: /var/www/html
+    command: tail -f /dev/null
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    container_name: wave-app
+    volumes:
+      - "./code:/var/www/html"
+    working_dir: /var/www/html"
+    env_file:
+      - code/.env
+    environment:
+      - APP_PORT=${APP_PORT}
+    depends_on:
+      - db
+    expose:
+      - "${FPM_PORT:-9000}"
+
+  nginx:
+    image: nginx:alpine
+    container_name: wave-nginx
+    depends_on:
+      - app
+    ports:
+      - "${APP_PORT}:80"
+    # Basic config: pass PHP requests to 'app' service on port 9000
+    # For advanced usage, copy or mount a custom nginx.conf
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+      - "./code:/var/www/html"
+    command: "nginx -g 'daemon off;'"
+
+  db:
+    image: mysql:8.0
+    container_name: wave-db
+    env_file:
+      - code/.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-wave}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-wave}
+      - MYSQL_USER=${MYSQL_USER:-wave}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-wave}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
