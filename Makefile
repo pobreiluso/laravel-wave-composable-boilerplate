@@ -1,5 +1,6 @@
 DOCKER_COMPOSE := docker-compose
 APP_SERVICE := app
+BUILDER_SERVICE := builder
 
 .PHONY: help init build up down composer-install migrate seed fresh logs bash download-wave wave-check copy-env generate-key
 
@@ -39,7 +40,7 @@ down:
 	$(DOCKER_COMPOSE) down
 
 composer-install:
-	$(DOCKER_COMPOSE) exec builder composer install
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer install
 
 migrate:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan migrate
