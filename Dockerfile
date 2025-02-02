@@ -37,6 +37,10 @@ RUN npm install
 # Stage 2: final runtime image
 FROM php:8.2-fpm
 
+RUN apt-get update && apt-get install -y libzip-dev libexif-dev libgd-dev libicu-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install zip exif gd intl pdo pdo_mysql
+
 WORKDIR /var/www/html
 
 # Copy from builder
