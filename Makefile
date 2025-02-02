@@ -55,13 +55,13 @@ composer-install:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer install
 
 migrate:
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan migrate
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate
 
 seed:
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan db:seed
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan db:seed
 
 fresh:
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan migrate:fresh --seed
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate:fresh --seed
 
 logs:
 	$(DOCKER_COMPOSE) logs -f $(APP_SERVICE)
@@ -107,7 +107,7 @@ wave-check:
 copy-env:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) cp .env.example .env || true
 generate-key:
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan key:generate
+	$(DOCKER_COMPOSE) run $(BUILDER_SERVICE) php artisan key:generate
 
 host-env:
 	@if [ -f code/.env.example ]; then \
