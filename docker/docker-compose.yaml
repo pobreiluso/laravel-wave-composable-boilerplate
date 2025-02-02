@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: builder
     container_name: wave-builder
-    volumess:
+    volumes:
       - "../code:/var/www/html"
     working_dir: /var/www/html
     command: tail -f /dev/null
