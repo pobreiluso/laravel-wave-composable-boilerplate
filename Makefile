@@ -2,7 +2,7 @@ DOCKER_COMPOSE := docker-compose -f docker/docker-compose.yaml
 APP_SERVICE := app
 BUILDER_SERVICE := builder
 
-.PHONY: help init build up down composer-install migrate seed fresh logs bash download-laravel project-check copy-env generate-key
+.PHONY: help init build up down composer-install migrate seed fresh logs bash download-laravel project-check copy-env generate-key download-wave
 
 help:
 	@echo "Comandos disponibles:"
@@ -23,7 +23,12 @@ init:
 	@echo "╭────────────────────────────────────────────────────╮"
 	@echo "│  \033[1;96m🚀 Bienvenido al proceso de configuración!\033[0m │"
 	@echo "╰────────────────────────────────────────────────────╯"
-	$(MAKE) project-check
+	@read -p "¿Deseas clonar Wave desde su repositorio oficial o instalar Laravel (wave/laravel)? " choice; \
+	if [ "$$choice" = "wave" ]; then \
+		$(MAKE) download-wave; \
+	else \
+		$(MAKE) project-check; \
+	fi
 	make host-env
 	make build
 	make composer-install
@@ -108,4 +113,12 @@ host-env:
 		fi; \
 	else \
 		echo "No existe code/.env.example; ¿seguro que Wave está descargado?"; \
+	fi
+download-wave:
+	@echo "Clonando Wave en la carpeta ./code..."
+	@if [ -d "./code" ] && [ -f "./code/artisan" ]; then \
+		echo "Ya existe un proyecto Laravel/Wave en ./code. No se procederá con el clon..."; \
+	else \
+		rm -rf ./code; \
+		git clone git@github.com:thedevdojo/wave.git code; \
 	fi
