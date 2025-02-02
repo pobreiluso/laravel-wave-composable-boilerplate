@@ -20,8 +20,8 @@ help:
 
 init:
 	$(MAKE) wave-check
-	make up
 	make host-env
+	make up
 	make composer-install
 	make generate-key
 	make migrate
