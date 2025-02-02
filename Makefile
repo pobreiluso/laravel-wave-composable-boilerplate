@@ -1,4 +1,4 @@
-DOCKER_COMPOSE := docker-compose
+DOCKER_COMPOSE := docker-compose -f docker/docker-compose.yaml
 APP_SERVICE := app
 BUILDER_SERVICE := builder
 
