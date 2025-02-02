@@ -28,7 +28,7 @@ services:
       - "${APP_PORT:-8008}:${APP_PORT:-8008}"
 
   db:
-    image: mysql:8
+    image: mariadb:10.9
     container_name: wave-db
     env_file:
       - code/.env
