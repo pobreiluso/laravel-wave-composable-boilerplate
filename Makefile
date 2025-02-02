@@ -26,12 +26,12 @@ init:
 	$(MAKE) wave-check
 	make host-env
 	@echo "Actualizando .env para usar Mariadb..."
-	sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' code/.env
-	sed -i 's/#DB_HOST=127.0.0.1/DB_HOST=db/' code/.env
-	sed -i 's/#DB_PORT=3306/DB_PORT=3306/' code/.env
-	sed -i 's/#DB_DATABASE=database/DB_DATABASE=wave/' code/.env
-	sed -i 's/#DB_USERNAME=root/DB_USERNAME=wave/' code/.env
-	sed -i 's/#DB_PASSWORD=/DB_PASSWORD=wave/' code/.env
+	sed -i '' 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' code/.env
+	sed -i '' 's/#DB_HOST=127.0.0.1/DB_HOST=db/' code/.env
+	sed -i '' 's/#DB_PORT=3306/DB_PORT=3306/' code/.env
+	sed -i '' 's/#DB_DATABASE=database/DB_DATABASE=wave/' code/.env
+	sed -i '' 's/#DB_USERNAME=root/DB_USERNAME=wave/' code/.env
+	sed -i '' 's/#DB_PASSWORD=/DB_PASSWORD=wave/' code/.env
 	make build
 	make composer-install
 	make up
