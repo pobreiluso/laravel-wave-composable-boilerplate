@@ -20,6 +20,9 @@ help:
 	@echo "  make bash       - Entra a la terminal bash del contenedor app."
 
 init:
+	@echo "============================================"
+	@echo "       Iniciando la configuración..."
+	@echo "============================================"
 	$(MAKE) wave-check
 	make host-env
 	make build
@@ -28,7 +31,9 @@ init:
 	make generate-key
 	make migrate
 	make seed
-	@echo "Init completado."
+	@echo "============================================"
+	@echo "¡Init completado con éxito!"
+	@echo "============================================"
 
 build:
 	docker build -t wave-app -f Dockerfile .
@@ -79,9 +84,16 @@ download-wave:
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
 wave-check:
-	@if [ -d "./wave" ]; then \
-		echo "El directorio ./wave ya existe."; \
-		echo "Si quieres descargarlo de nuevo, elimínalo o renómbralo antes de ejecutar make download-wave."; \
+	@echo "============================================"
+	@echo "       Verificación de carpeta Wave"
+	@echo "============================================"
+	@if [ -d "./code" ]; then \
+		read -p "Ya existe la carpeta ./code. ¿Deseas sobreescribirla y descargar Wave (s/N)? " conf; \
+		if [ "$$conf" = "s" ] || [ "$$conf" = "S" ]; then \
+			make download-wave; \
+		else \
+			echo "Omitiendo descarga. Se usará la carpeta ./code existente."; \
+		fi; \
 	else \
 		make download-wave; \
 	fi
