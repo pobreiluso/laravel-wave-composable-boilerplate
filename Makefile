@@ -18,6 +18,7 @@ help:
 	@echo "  make bash       - Entra a la terminal bash del contenedor app."
 
 init:
+	download-wave
 	$(DOCKER_COMPOSE) up -d
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) cp .env.example .env || true
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) composer install
