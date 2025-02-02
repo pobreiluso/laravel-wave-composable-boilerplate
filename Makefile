@@ -73,7 +73,7 @@ logs:
 
 download-laravel:
 	@echo "Instalando un nuevo proyecto Laravel desde laravel/laravel..."
-	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer create-project laravel/laravel code
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer create-project laravel/laravel .
 
 bash:
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) bash
