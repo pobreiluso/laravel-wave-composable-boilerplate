@@ -39,7 +39,8 @@ FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y libzip-dev libexif-dev libgd-dev libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install zip exif gd intl pdo pdo_mysql
+    && docker-php-ext-install zip exif gd intl pdo pdo_mysql \
+    && docker-php-ext-enable pdo pdo_mysql
 
 WORKDIR /var/www/html
 
