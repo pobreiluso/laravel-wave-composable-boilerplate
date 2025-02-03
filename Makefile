@@ -121,16 +121,12 @@ host-env:
 		echo "No existe code/.env.example; ¿seguro que Wave está descargado?"; \
 	fi
 download-wave:
-	@echo "Descargando Wave v3.0.3 en la carpeta ./code..."
+	@echo "Clonando Wave en la carpeta ./code..."
 	@if [ -d "./code" ] && [ -f "./code/artisan" ]; then \
-		echo "Ya existe un proyecto Laravel/Wave en ./code. No se procederá con la descarga..."; \
+		echo "Ya existe un proyecto Laravel/Wave en ./code. No se procederá con el clon..."; \
 	else \
-		rm -rf ./code && mkdir -p ./code && \
-		curl -L https://github.com/thedevdojo/wave/archive/refs/tags/3.0.3.zip -o wave.zip && \
-		unzip wave.zip && \
-		mv wave-3.0.3/* ./code/ && \
-		mv wave-3.0.3/.* ./code/ 2>/dev/null || true && \
-		rm -rf wave-3.0.3 wave.zip; \
+		rm -rf ./code; \
+		git clone git@github.com:thedevdojo/wave.git code; \
 	fi
 
 drakarys:
