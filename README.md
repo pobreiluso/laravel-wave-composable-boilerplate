@@ -1,14 +1,12 @@
-# Wave - Local Project
+# Wave Docker Development Environment
 
-This repository contains the configuration and tooling necessary to initialize and run a Wave-based project with Docker containers. Below is a step-by-step guide on how to spin up the environment, install dependencies, and perform common tasks.
+Este repositorio contiene la configuración necesaria para ejecutar Wave v3.0.3 en un entorno Docker local. A continuación se detalla cómo inicializar y gestionar el entorno de desarrollo.
 
----
+## Prerrequisitos
 
-## 1. Prerequisites
-
-• Docker installed and running.  
-• docker-compose available on your system.  
-• Optionally, Make (GNU make) installed to run simplified commands.
+- Docker instalado y en ejecución
+- docker-compose disponible en el sistema
+- Make (GNU make) instalado para ejecutar comandos simplificados
 
 ---
 
@@ -41,51 +39,45 @@ This command will:
 
 Once this process finishes, you should be able to access the application at http://localhost:8008 (or whichever port is set by APP_PORT in your .env).
 
----
+## Estructura del Proyecto
 
-## 4. Common Commands
+```
+.
+├── code/                   # Código fuente de Wave
+├── docker/
+│   ├── .env.docker        # Variables de entorno para Docker
+│   ├── Dockerfile         # Multi-stage build (base, builder, app)
+│   ├── docker-compose.yaml # Definición de servicios
+│   └── nginx/
+│       └── nginx.conf     # Configuración de Nginx
+└── Makefile               # Comandos simplificados
+```
 
-Below are the most common commands found in the Makefile:
+## Comandos Disponibles
 
-1) Start Containers  
-   make up  
-   Spin up all services in detached mode (equivalent to docker-compose up -d).
+### Gestión del Entorno
 
-2) Stop Containers  
-   make down  
-   Stop and remove the containers (equivalent to docker-compose down).
+- `make up` - Inicia los contenedores
+- `make down` - Detiene y elimina los contenedores
+- `make build` - Construye la imagen Docker
+- `make logs` - Muestra los logs del servicio app
+- `make bash` - Abre una terminal en el contenedor app
 
-3) Build the Docker Image  
-   make build  
-   Rebuild the wave-app image if you modified the Dockerfile.
+### Base de Datos
 
-4) Install Composer Dependencies  
-   make composer-install  
-   Runs composer install inside the builder container.
+- `make migrate` - Ejecuta las migraciones
+- `make seed` - Ejecuta los seeders
+- `make fresh` - Recrea y puebla la base de datos
 
-5) Run Database Migrations  
-   make migrate  
-   Runs php artisan migrate inside the builder container.
+### Dependencias
 
-6) Seed the Database  
-   make seed  
-   Checks if the database is empty before seeding. Avoids double seeding when migrations already exist.
+- `make composer-install` - Instala dependencias de Composer
+- `make npm-install` - Instala dependencias de NPM
 
-7) Refresh the Database  
-   make fresh  
-   Cleans all tables and re-runs the migrations, then seeds the database.
+### Utilidades
 
-8) View Logs  
-   make logs  
-   Shows logs of the app service (wave-app container).
-
-9) Open a Bash Shell in the App Container  
-   make bash  
-   Executes a bash shell inside the wave-app container.
-
-10) Download Wave Manually  
-   make download-wave  
-   Optionally used if you just want to overwrite the ./code folder with a fresh Wave copy.
+- `make drakarys` - Elimina todos los contenedores y el código (¡usar con precaución!)
+- `make download-wave` - Descarga Wave v3.0.3 (solo si ./code está vacío)
 
 ---
 
