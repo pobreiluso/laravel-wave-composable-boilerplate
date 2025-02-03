@@ -87,6 +87,12 @@ logs:
 
 download-laravel:
 	@echo "Instalando un nuevo proyecto Laravel desde laravel/laravel..."
+	@if [ -d "./code" ]; then \
+		echo "Limpiando directorio code..."; \
+		rm -rf ./code/*; \
+	else \
+		mkdir -p ./code; \
+	fi
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) composer create-project laravel/laravel .
 
 bash:
