@@ -131,22 +131,22 @@ configure-env:
 		if ! grep -q '^APP_PORT=' code/.env; then \
 			echo "APP_PORT=8008" >> code/.env; \
 		fi; \
-		# Database
-		sed -i '' 's/^#*DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
-		sed -i '' 's/^#*DB_HOST=.*/DB_HOST=db/' code/.env; \
-		sed -i '' 's/^#*DB_PORT=.*/DB_PORT=3306/' code/.env; \
-		sed -i '' 's/^#*DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
-		sed -i '' 's/^#*DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
-		sed -i '' 's/^#*DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
-		# Redis
-		sed -i '' 's/^#*REDIS_HOST=.*/REDIS_HOST=redis/' code/.env; \
-		sed -i '' 's/^#*REDIS_PASSWORD=.*/REDIS_PASSWORD=null/' code/.env; \
-		sed -i '' 's/^#*REDIS_PORT=.*/REDIS_PORT=6379/' code/.env; \
-		# Mail
-		sed -i '' 's/^#*MAIL_MAILER=.*/MAIL_MAILER=smtp/' code/.env; \
-		sed -i '' 's/^#*MAIL_HOST=.*/MAIL_HOST=mailhog/' code/.env; \
-		sed -i '' 's/^#*MAIL_PORT=.*/MAIL_PORT=1025/' code/.env; \
-		sed -i '' 's/^#*MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=null/' code/.env; \
+		# Database \
+		sed -i '' -e 's/^#*DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
+		sed -i '' -e 's/^#*DB_HOST=.*/DB_HOST=db/' code/.env; \
+		sed -i '' -e 's/^#*DB_PORT=.*/DB_PORT=3306/' code/.env; \
+		sed -i '' -e 's/^#*DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
+		sed -i '' -e 's/^#*DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
+		sed -i '' -e 's/^#*DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
+		# Redis \
+		sed -i '' -e 's/^#*REDIS_HOST=.*/REDIS_HOST=redis/' code/.env; \
+		sed -i '' -e 's/^#*REDIS_PASSWORD=.*/REDIS_PASSWORD=null/' code/.env; \
+		sed -i '' -e 's/^#*REDIS_PORT=.*/REDIS_PORT=6379/' code/.env; \
+		# Mail \
+		sed -i '' -e 's/^#*MAIL_MAILER=.*/MAIL_MAILER=smtp/' code/.env; \
+		sed -i '' -e 's/^#*MAIL_HOST=.*/MAIL_HOST=mailhog/' code/.env; \
+		sed -i '' -e 's/^#*MAIL_PORT=.*/MAIL_PORT=1025/' code/.env; \
+		sed -i '' -e 's/^#*MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=null/' code/.env; \
 		echo "Variables de entorno actualizadas correctamente."; \
 	else \
 		echo "No se encuentra el archivo .env en code/."; \
