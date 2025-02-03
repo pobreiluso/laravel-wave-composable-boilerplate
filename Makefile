@@ -116,24 +116,41 @@ host-env:
 		if [ ! -f code/.env ]; then \
 			echo "Copiando code/.env.example → code/.env"; \
 			cp code/.env.example code/.env; \
-			if ! grep -q '^APP_PORT=' code/.env; then \
-				echo "APP_PORT=8008" >> code/.env; \
-			fi; \
-			sed -i '' 's/^#*DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
-			sed -i '' 's/^#*DB_HOST=.*/DB_HOST=db/' code/.env; \
-			sed -i '' 's/^#*DB_PORT=.*/DB_PORT=3306/' code/.env; \
-			sed -i '' 's/^#*DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
-			sed -i '' 's/^#*DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
-			sed -i '' 's/^#*DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
+			$(MAKE) configure-env; \
 		else \
 			echo "Ya existe code/.env; no se sobrescribe."; \
-			if ! grep -q '^APP_PORT=' code/.env; then \
-				echo "No APP_PORT en code/.env; añadiendo APP_PORT=8008"; \
-				echo "APP_PORT=8008" >> code/.env; \
-			fi; \
+			$(MAKE) configure-env; \
 		fi; \
 	else \
 		echo "No existe code/.env.example; ¿seguro que Wave está descargado?"; \
+	fi
+
+configure-env:
+	@echo "Configurando variables de entorno para los servicios..."
+	@if [ -f code/.env ]; then \
+		if ! grep -q '^APP_PORT=' code/.env; then \
+			echo "APP_PORT=8008" >> code/.env; \
+		fi; \
+		# Database
+		sed -i '' 's/^#*DB_CONNECTION=.*/DB_CONNECTION=mysql/' code/.env; \
+		sed -i '' 's/^#*DB_HOST=.*/DB_HOST=db/' code/.env; \
+		sed -i '' 's/^#*DB_PORT=.*/DB_PORT=3306/' code/.env; \
+		sed -i '' 's/^#*DB_DATABASE=.*/DB_DATABASE=wave/' code/.env; \
+		sed -i '' 's/^#*DB_USERNAME=.*/DB_USERNAME=wave/' code/.env; \
+		sed -i '' 's/^#*DB_PASSWORD=.*/DB_PASSWORD=wave/' code/.env; \
+		# Redis
+		sed -i '' 's/^#*REDIS_HOST=.*/REDIS_HOST=redis/' code/.env; \
+		sed -i '' 's/^#*REDIS_PASSWORD=.*/REDIS_PASSWORD=null/' code/.env; \
+		sed -i '' 's/^#*REDIS_PORT=.*/REDIS_PORT=6379/' code/.env; \
+		# Mail
+		sed -i '' 's/^#*MAIL_MAILER=.*/MAIL_MAILER=smtp/' code/.env; \
+		sed -i '' 's/^#*MAIL_HOST=.*/MAIL_HOST=mailhog/' code/.env; \
+		sed -i '' 's/^#*MAIL_PORT=.*/MAIL_PORT=1025/' code/.env; \
+		sed -i '' 's/^#*MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=null/' code/.env; \
+		echo "Variables de entorno actualizadas correctamente."; \
+	else \
+		echo "No se encuentra el archivo .env en code/."; \
+		exit 1; \
 	fi
 download-wave:
 	@echo "Descargando Wave v3.0.3 en la carpeta ./code..."
