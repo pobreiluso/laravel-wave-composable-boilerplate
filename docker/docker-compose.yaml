@@ -1,4 +1,9 @@
 version: '3.8'
+
+networks:
+  wave-network:
+    driver: bridge
+
 services:
   builder:
     build:
@@ -50,6 +55,13 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - wave-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db_data:
