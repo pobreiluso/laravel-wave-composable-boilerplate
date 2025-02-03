@@ -35,6 +35,7 @@ init:
 	make npm-install
 	make up
 	make generate-key
+	make wait-for-db
 	make migrate
 	make seed
 	@echo "╭────────────────────────────────────────────────────╮"
@@ -56,7 +57,16 @@ composer-install:
 npm-install:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) npm install
 
-migrate:
+wait-for-db:
+	@echo "Esperando a que MySQL esté disponible..."
+	@$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) sh -c '\
+	while ! php artisan db:monitor --check > /dev/null 2>&1; do \
+		echo "MySQL no está listo - esperando..."; \
+		sleep 2; \
+	done; \
+	echo "MySQL está listo!"'
+
+migrate: wait-for-db
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate
 
 seed:
