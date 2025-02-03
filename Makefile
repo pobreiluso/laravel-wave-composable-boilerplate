@@ -36,8 +36,7 @@ init:
 	make up
 	make generate-key
 	make wait-for-db
-	make migrate
-	make seed
+	make fresh
 	@echo "╭────────────────────────────────────────────────────╮"
 	@echo "│  \033[1;92m¡Init completado con éxito!\033[0m               │"
 	@echo "╰────────────────────────────────────────────────────╯"
