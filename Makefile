@@ -58,8 +58,8 @@ npm-install:
 
 wait-for-db:
 	@echo "Esperando a que MySQL esté disponible..."
-	@$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) sh -c '\
-	while ! php artisan db:monitor --check > /dev/null 2>&1; do \
+	@$(DOCKER_COMPOSE) exec db sh -c '\
+	while ! mysqladmin ping -h"localhost" -u"$$MYSQL_USER" -p"$$MYSQL_PASSWORD" --silent; do \
 		echo "MySQL no está listo - esperando..."; \
 		sleep 2; \
 	done; \
