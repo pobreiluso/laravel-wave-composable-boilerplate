@@ -27,16 +27,16 @@ init:
 	if [ "$$choice" = "wave" ]; then \
 		$(MAKE) download-wave; \
 	else \
-		$(MAKE) project-check; \
+		$(MAKE) download-laravel; \
 	fi
-	make host-env
-	make build
-	make composer-install
-	make npm-install
-	make up
-	make generate-key
-	make wait-for-db
-	make fresh
+	@$(MAKE) host-env
+	@$(MAKE) build
+	@$(MAKE) composer-install
+	@$(MAKE) npm-install
+	@$(MAKE) up
+	@$(MAKE) generate-key
+	@$(MAKE) wait-for-db
+	@$(MAKE) fresh
 	@echo "╭────────────────────────────────────────────────────╮"
 	@echo "│  \033[1;92m¡Init completado con éxito!\033[0m               │"
 	@echo "╰────────────────────────────────────────────────────╯"
