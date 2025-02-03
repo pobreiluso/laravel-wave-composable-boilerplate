@@ -85,7 +85,7 @@ download-wave:
 		rm -rf code; \
 	fi
 	mkdir -p code
-	curl -L https://devdojo.com/wave/download -o wave-latest.zip
+	curl -L https://github.com/thedevdojo/wave/archive/refs/tags/3.0.3.zip -o wave-latest.zip
 	unzip wave-latest.zip -d code >/dev/null
 	rm wave-latest.zip
 	@cd code && SUBDIR="$$(ls -1 | head -n1)" && \
