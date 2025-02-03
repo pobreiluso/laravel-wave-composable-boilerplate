@@ -61,14 +61,14 @@ migrate:
 
 seed:
 	@echo "Comprobando si ya se ha seedado la DB..."
-	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) sh -c "\
-	COUNT=\$$(php artisan tinker --execute=\"echo(DB::table('migrations')->count())\"); \
-	if [ \$\$COUNT -eq 0 ]; then \
-		echo '-> La DB está vacía. Ejecutando seeds...'; \
+	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) sh -c '\
+	COUNT=$$(php artisan tinker --execute="echo(DB::table('\''migrations'\'')->count())"); \
+	if [ "$$COUNT" -eq 0 ]; then \
+		echo "-> La DB está vacía. Ejecutando seeds..."; \
 		php artisan db:seed; \
 	else \
-		echo '-> La DB ya contiene migraciones. Omitiendo seed.'; \
-	fi"
+		echo "-> La DB ya contiene migraciones. Omitiendo seed."; \
+	fi'
 
 fresh:
 	$(DOCKER_COMPOSE) run --rm $(BUILDER_SERVICE) php artisan migrate:fresh --seed
